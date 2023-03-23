@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:library_app/pages/books.dart';
 import 'package:library_app/pages/home.dart';
 
 void main() => runApp(const MyApp());
@@ -25,9 +26,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
     MyHome(),
-    Text(
-      'Index 1: Business',
-    ),
+    MyBooks(),
     Text(
       'Index 2: School',
     ),
