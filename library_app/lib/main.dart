@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:library_app/login_page.dart';
 import 'package:library_app/pages/books.dart';
 import 'package:library_app/pages/calendar.dart';
 import 'package:library_app/pages/home.dart';
@@ -13,6 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       home: MyStatefulWidget(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -27,7 +29,7 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   static List<Widget> _widgetOptions = <Widget>[
-    MyHome(),
+    LoginPage(),
     MyBooks(),
     MyCalendar(),
     Myprofile(),
@@ -75,4 +77,3 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     );
   }
 }
-
