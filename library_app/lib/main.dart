@@ -33,10 +33,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     Myprofile(),
   ];
 
-  /*final screens = [
-    MyHome(),
-  ];*/
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
