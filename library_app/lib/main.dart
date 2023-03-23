@@ -30,6 +30,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   static List<Widget> _widgetOptions = <Widget>[
     LoginPage(),
+    MyHome(),
     MyBooks(),
     MyCalendar(),
     Myprofile(),
@@ -53,6 +54,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.circle, size: 35),
+            label: '',
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.circle, size: 35),
             label: '',
