@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:library_app/pages/books.dart';
+import 'package:library_app/pages/calendar.dart';
 import 'package:library_app/pages/home.dart';
+import 'package:library_app/pages/profile.dart';
 
 void main() => runApp(const MyApp());
 
@@ -24,15 +26,11 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
-  static const List<Widget> _widgetOptions = <Widget>[
+  static List<Widget> _widgetOptions = <Widget>[
     MyHome(),
     MyBooks(),
-    Text(
-      'Index 2: School',
-    ),
-    Text(
-      'Index 3: Circle',
-    ),
+    MyCalendar(),
+    Myprofile(),
   ];
 
   /*final screens = [
