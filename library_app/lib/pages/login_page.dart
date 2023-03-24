@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:library_app/main.dart';
 import 'package:library_app/pages/register_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -113,7 +114,13 @@ class _LoginPageState extends State<LoginPage> {
                       textStyle: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 14),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MyStatefulWidget()),
+                      );
+                    },
                     child: const Text(
                       'Kirjaudu',
                       style: TextStyle(color: Colors.white),

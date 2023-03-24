@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:library_app/login_page.dart';
 import 'package:library_app/pages/books.dart';
 import 'package:library_app/pages/calendar.dart';
 import 'package:library_app/pages/home.dart';
 import 'package:library_app/pages/profile.dart';
+import 'package:library_app/pages/login_page.dart';
+import 'package:library_app/pages/register_page.dart';
 
 void main() => runApp(const MyApp());
 
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: MyStatefulWidget(),
+      home: LoginPage(),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -29,7 +30,6 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   static List<Widget> _widgetOptions = <Widget>[
-    LoginPage(),
     MyHome(),
     MyBooks(),
     MyCalendar(),
@@ -54,10 +54,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.circle, size: 35),
-            label: '',
-          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.circle, size: 35),
             label: '',
