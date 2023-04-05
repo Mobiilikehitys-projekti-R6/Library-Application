@@ -5,6 +5,19 @@ class MyBooks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Color.fromARGB(68, 255, 255, 255),
+          elevation: 0,
+          title: const Text('Kirjat',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 27,
+            )),
+          centerTitle: true
+        ),
         body: GridView.count(
           // Create a grid with 2 columns. If you change the scrollDirection to
           // horizontal, this produces 2 rows.

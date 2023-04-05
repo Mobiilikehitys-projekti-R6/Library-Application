@@ -109,7 +109,7 @@ class RegisterPageState extends State<RegisterPage> {
                       Text(
                         'Takaisin kirjautumiseen',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.green),
+                            fontWeight: FontWeight.bold, color: Color(0xFF25BE70)),
                       ),
                     ],
                   ),
@@ -119,7 +119,7 @@ class RegisterPageState extends State<RegisterPage> {
                 // Kirjaudu sisään -nappi
                 Container(
                   decoration: BoxDecoration(
-                      color: Colors.green,
+                      color: Color(0xFF25BE70),
                       border: Border.all(color: Colors.white),
                       borderRadius: BorderRadius.circular(12)),
                   child: TextButton(
