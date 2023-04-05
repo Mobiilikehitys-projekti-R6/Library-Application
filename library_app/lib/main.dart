@@ -6,7 +6,14 @@ import 'package:library_app/pages/profile.dart';
 import 'package:library_app/pages/login_page.dart';
 import 'package:library_app/pages/register_page.dart';
 
-void main() => runApp(const MyApp());
+import 'package:firebase_core/firebase_core.dart';
+
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
