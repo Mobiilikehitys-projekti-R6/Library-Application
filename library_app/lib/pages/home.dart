@@ -19,9 +19,13 @@ class MyHome extends StatelessWidget {
             ),
           ),
           centerTitle: true,
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(60),
-            child: Padding(
+        ),
+        body: Column(
+          children: [
+            SizedBox(
+              height: 100,
+            ),
+            Container(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 decoration: InputDecoration(
@@ -31,25 +35,30 @@ class MyHome extends StatelessWidget {
                     borderSide: BorderSide(
                       color: Colors.grey,
                     ),
+                    borderRadius: BorderRadius.circular(40.0),
                   ),
                 ),
               ),
             ),
-          ),
-        ),
-        body: GridView.count(
-          // Create a grid with 2 columns. If you change the scrollDirection to
-          // horizontal, this produces 2 rows.
-          crossAxisCount: 2,
-          // Generate 100 widgets that display their index in the List.
-          children: List.generate(100, (index) {
-            return Center(
-              child: Text(
-                'Item $index',
-                style: Theme.of(context).textTheme.headlineSmall,
+         SizedBox(height: 5),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: GridView.count(
+                    crossAxisCount: 2,
+                    padding: EdgeInsets.all(8),
+                    children: List.generate(100, (index) {
+                      return Center(
+                        child: Text(
+                          'Item $index',
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
+                      );
+                    }),
+                  ),
+                ),
               ),
-            );
-          }),
-        ),
-      );
+            ],
+          ),
+        );
 }
