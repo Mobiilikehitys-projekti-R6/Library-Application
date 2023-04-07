@@ -29,7 +29,7 @@ class MyBooks extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 decoration: InputDecoration(
-                  hintText: 'Search',
+                  hintText: 'Etsi...',
                   prefixIcon: Icon(Icons.search),
                   border: OutlineInputBorder(
                     borderSide: BorderSide(
@@ -40,12 +40,11 @@ class MyBooks extends StatelessWidget {
                 ),
               ),
             ),
-         SizedBox(height: 5),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: GridView.count(
-                    crossAxisCount: 2,
+                    crossAxisCount: 1,
                     padding: EdgeInsets.all(8),
                     children: List.generate(100, (index) {
                       return Center(

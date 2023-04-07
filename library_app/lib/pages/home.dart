@@ -20,45 +20,141 @@ class MyHome extends StatelessWidget {
           ),
           centerTitle: true,
         ),
-        body: Column(
-          children: [
-            SizedBox(
-              height: 100,
-            ),
-            Container(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Search',
-                  prefixIcon: Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.grey,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 100,
+              ),
+              Container(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Etsi...',
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.grey,
+                      ),
+                      borderRadius: BorderRadius.circular(40.0),
                     ),
-                    borderRadius: BorderRadius.circular(40.0),
                   ),
                 ),
               ),
-            ),
-         SizedBox(height: 5),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: GridView.count(
-                    crossAxisCount: 2,
-                    padding: EdgeInsets.all(8),
-                    children: List.generate(100, (index) {
-                      return Center(
+              Container(
+                padding: EdgeInsets.only(top: 16),
+                child: Column(
+                  children: [
+                    Container(
+                      child: Align(
+                        alignment: Alignment.centerLeft,
                         child: Text(
-                          'Item $index',
-                          style: Theme.of(context).textTheme.headlineSmall,
+                          'Kuumat uutuudet',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 25,
+                          ),
                         ),
-                      );
-                    }),
-                  ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
+              SizedBox(
+                height: 200,
+                child: GridView.count(
+                  scrollDirection: Axis.horizontal,
+                  crossAxisCount: 1,
+                  padding: EdgeInsets.only(top: 8),
+                  childAspectRatio: 1.5,
+                  children: List.generate(100, (index) {
+                    return Center(
+                      child: Text(
+                        'Item $index',
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
+                    );
+                  }),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 16),
+                child: Column(
+                  children: [
+                    Container(
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Näitä luetaan juuri nyt',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 25,
+                          ),
+                        ),
+                      ),
+                    ),
+              SizedBox(
+                height: 200,
+                child: GridView.count(
+                  scrollDirection: Axis.horizontal,
+                  crossAxisCount: 1,
+                  padding: EdgeInsets.only(top: 8),
+                  childAspectRatio: 1.5,
+                  children: List.generate(100, (index) {
+                    return Center(
+                      child: Text(
+                        'Item $index',
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
+                    );
+                  }),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 16),
+                child: Column(
+                  children: [
+                    Container(
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Koska luit xyz',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 25,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 200,
+                child: GridView.count(
+                  scrollDirection: Axis.horizontal,
+                  crossAxisCount: 1,
+                  padding: EdgeInsets.only(top: 8),
+                  childAspectRatio: 1.5,
+                  children: List.generate(100, (index) {
+                    return Center(
+                      child: Text(
+                        'Item $index',
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
+                    );
+                  }),
+                ),
+              ),
+          ],
           ),
-        );
+        ),
+      ],
+    ),
+  ),
+);
+
 }
