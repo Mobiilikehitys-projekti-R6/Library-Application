@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       // FIREBASE TESTIN VUOKSI TÄSSÄ TÄMÄ:
-      //  home: MainPage(),
+      //home: MainPage(),
       home: LoginPage(),
       debugShowCheckedModeBanner: false,
     );

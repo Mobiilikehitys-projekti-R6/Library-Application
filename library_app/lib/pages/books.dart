@@ -11,7 +11,7 @@ class MyBooks extends StatelessWidget {
           backgroundColor: Color.fromARGB(68, 255, 255, 255),
           elevation: 0,
           title: const Text(
-            'Sinun Kirjasi',
+            'Sinun Lainat',
             style: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,
