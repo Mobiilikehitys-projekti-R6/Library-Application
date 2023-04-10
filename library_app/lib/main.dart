@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:library_app/pages/books.dart';
 import 'package:library_app/pages/calendar.dart';
@@ -9,6 +10,8 @@ import 'package:library_app/pages/register_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+final FirebaseAuth _auth = FirebaseAuth.instance;
+
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -16,59 +19,24 @@ Future main() async {
   runApp(MyApp());
 }
 
-// FIREBASE TESTAILUA START
-
-class MainPage extends StatefulWidget {
-  const MainPage({super.key});
-
-  @override
-  State<MainPage> createState() => _MainPageState();
-}
-
-class _MainPageState extends State<MainPage> {
-  final controller = TextEditingController();
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: TextField(controller: controller),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                final name = controller.text;
-
-                createUser(name: name);
-              },
-            ),
-          ],
-        ),
-      );
-
-  Future createUser({required String name}) async {
-    // Ref to document
-    final docUser = FirebaseFirestore.instance.collection('users').doc('my-id');
-
-    final json = {
-      'name': name,
-      'age': 21,
-      'birthday': DateTime(2001, 7, 28),
-    };
-
-    // Create document and write data to Firebase
-    await docUser.set(json);
-  }
-}
-// FIREBASE testailua END
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      // FIREBASE TESTIN VUOKSI TÄSSÄ TÄMÄ:
-      //home: MainPage(),
-      home: LoginPage(),
+    return MaterialApp(
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          } else if (snapshot.hasData) {
+            return MyStatefulWidget();
+          } else {
+            return LoginPage();
+          }
+        },
+      ),
       debugShowCheckedModeBanner: false,
     );
   }
