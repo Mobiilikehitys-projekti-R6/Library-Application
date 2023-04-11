@@ -25,18 +25,11 @@ class _MyprofileState extends State<Myprofile> {
       _info = info;
     });
   }
-
-  Future<void> _pickImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-    if (pickedFile != null) {
-      setState(() {
-        _image = File(pickedFile.path);
-      });
-    }
-  }
-
+void _updateProfilePicture(File image) {
+  setState(() {
+    _image = image;
+  });
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +46,7 @@ class _MyprofileState extends State<Myprofile> {
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        ProfileSettings(updateProfile: _updateProfile),
+                        ProfileSettings(updateProfile: _updateProfile, updateProfilePicture: _updateProfilePicture),
                   ),
                 );
               },
@@ -85,7 +78,7 @@ class _MyprofileState extends State<Myprofile> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             InkWell(
-              onTap: _pickImage,
+              //onTap: _pickImage,
               child: CircleAvatar(
               backgroundImage: _image != null
                 ? FileImage(_image!)

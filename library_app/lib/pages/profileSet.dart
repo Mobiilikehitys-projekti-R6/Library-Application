@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileSettings extends StatefulWidget {
   final Function updateProfile;
+  final Function updateProfilePicture;
 
-  const ProfileSettings({Key? key, required this.updateProfile}) : super(key: key);
+  const ProfileSettings({Key? key, required this.updateProfile, required this.updateProfilePicture}) : super(key: key);
 
   @override
   _ProfileSettingsState createState() => _ProfileSettingsState();
@@ -15,6 +19,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   String _name = '';
   String _email = '';
   String _info = '';
+  File? _imageFile;
 
   TextEditingController _nameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
@@ -26,6 +31,18 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     _nameController.text = _name;
     _emailController.text = _email;
     _infoController.text = _info;
+  }
+
+  Future<void> _selectProfileImage() async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+       //_imageFile = File(pickedFile.path);
+        widget.updateProfilePicture(File(pickedFile.path));
+      });
+    }
   }
 
   @override
@@ -51,6 +68,15 @@ class _ProfileSettingsState extends State<ProfileSettings> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
+              GestureDetector(
+                onTap: _selectProfileImage, // call _selectProfileImage method when tapped
+                child: CircleAvatar(
+                  radius: 50,
+                  backgroundImage: _imageFile != null ? FileImage(_imageFile!) 
+                  : AssetImage('') as ImageProvider<Object>?,
+                ),
+              ),
+              SizedBox(height: 20),
               TextFormField(
                 controller: _nameController,
                 decoration: InputDecoration(

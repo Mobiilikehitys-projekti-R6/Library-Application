@@ -34,11 +34,11 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
     } on FirebaseAuthException catch (e) {
-      String errorMessage = 'Authentication failed';
+      String errorMessage = 'Autentikoinnissa tapahtui virhe';
       if (e.code == 'user-not-found') {
-        errorMessage = 'No user found for that email';
+        errorMessage = 'Sähköposti tai salasana on väärä';
       } else if (e.code == 'wrong-password') {
-        errorMessage = 'Wrong password provided for that user';
+        errorMessage = 'Sähköposti tai salasana on väärä';
       }
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -172,7 +172,7 @@ Widget build(BuildContext context) {
                 ),
               ),
               style: ElevatedButton.styleFrom(
-                primary: Color(0xFF25BE70),
+                backgroundColor: Color(0xFF25BE70),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),

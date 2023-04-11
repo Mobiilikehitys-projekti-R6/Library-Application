@@ -5,10 +5,8 @@ import 'package:library_app/pages/calendar.dart';
 import 'package:library_app/pages/home.dart';
 import 'package:library_app/pages/profile.dart';
 import 'package:library_app/pages/login_page.dart';
-import 'package:library_app/pages/register_page.dart';
-
 import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
