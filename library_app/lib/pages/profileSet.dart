@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -43,6 +45,13 @@ class _ProfileSettingsState extends State<ProfileSettings> {
         widget.updateProfilePicture(File(pickedFile.path));
       });
     }
+  }
+
+  Future addUserDetails(String _name, String _info) async {
+    await FirebaseFirestore.instance.collection('users').add({
+      'name': _name,
+      'info': _info,
+    });
   }
 
   @override
@@ -132,13 +141,14 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       fontSize: 14,
                     ),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       setState(() {
                         _name = _nameController.text;
                         _email = _emailController.text;
                         _info = _infoController.text;
                       });
+                      await addUserDetails(_name, _info);
                       widget.updateProfile(_name, _email, _info);
                       //Navigator.pop(context);
                     }

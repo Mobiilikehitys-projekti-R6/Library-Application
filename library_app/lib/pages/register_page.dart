@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:library_app/pages/login_page.dart';
@@ -14,6 +15,25 @@ class RegisterPageState extends State<RegisterPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
+
+@override
+void dispose() {
+  _emailController.dispose();
+  _passwordController.dispose();
+  _confirmPasswordController.dispose();
+  super.dispose();
+}
+
+Future<void> addUserDetails(String email) async {
+  try {
+    await FirebaseFirestore.instance.collection('users').add({
+      'email': email,
+    });
+  } catch (e) {
+    print('Tapahtui virhe. Yritä hetken päästä uudelleen.');
+  }
+}
+
 
 @override
 Widget build(BuildContext context) {
@@ -140,6 +160,7 @@ Widget build(BuildContext context) {
                     email: email,
                     password: password,
                   );
+                  await addUserDetails(email);
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       builder: (BuildContext context) => const LoginPage(),
