@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:library_app/pages/login_page.dart';
 import 'package:library_app/pages/profileSet.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Myprofile extends StatefulWidget {
   const Myprofile({Key? key}) : super(key: key);
@@ -14,21 +15,34 @@ class Myprofile extends StatefulWidget {
 
 class _MyprofileState extends State<Myprofile> {
   String _name = '';
-  String _email = '';
-  String _info = '';
   File? _image;
 
-  void _updateProfile(String name, String email, String info) {
-    setState(() {
-      _name = name;
-      _email = email;
-      _info = info;
+  void _updateProfile() {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc('user_id_here')
+        .get()
+        .then((doc) {
+      if (doc.exists) {
+        setState(() {
+          _name = doc['displayName'];
+        });
+      } else {
+        print('Document does not exist on the database');
+      }
+    }).catchError((error) {
+      print('Error getting document: $error');
     });
   }
 void _updateProfilePicture(File image) {
   setState(() {
     _image = image;
   });
+}
+@override
+void initState() {
+  super.initState();
+  _updateProfile();
 }
   @override
   Widget build(BuildContext context) {
@@ -46,7 +60,7 @@ void _updateProfilePicture(File image) {
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        ProfileSettings(updateProfile: _updateProfile, updateProfilePicture: _updateProfilePicture),
+                        ProfileSettings(updateProfile: _updateProfile),
                   ),
                 );
               },
@@ -78,7 +92,6 @@ void _updateProfilePicture(File image) {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             InkWell(
-              //onTap: _pickImage,
               child: CircleAvatar(
               backgroundImage: _image != null
                 ? FileImage(_image!)
@@ -92,26 +105,6 @@ void _updateProfilePicture(File image) {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 5),
-            Text(
-              _email,
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.grey[600],
-              ),
-            ),
-            SizedBox(height: 20),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                _info,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[700],
-                ),
-                textAlign: TextAlign.center,
               ),
             ),
           ],

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:library_app/pages/home.dart';
@@ -17,40 +18,51 @@ class _LoginPageState extends State<LoginPage> {
 
   bool _isLoading = false;
 
-  Future<void> _signInWithEmailAndPassword() async {
-    setState(() {
-      _isLoading = true;
-    });
-    try {
-      final UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (BuildContext context) => MyStatefulWidget(),
-        ),
-      );
-    } on FirebaseAuthException catch (e) {
-      String errorMessage = 'Autentikoinnissa tapahtui virhe';
-      if (e.code == 'user-not-found') {
-        errorMessage = 'Sähköposti tai salasana on väärä';
-      } else if (e.code == 'wrong-password') {
-        errorMessage = 'Sähköposti tai salasana on väärä';
-      }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(errorMessage),
-        ),
-      );
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
+Future<void> _signInWithEmailAndPassword() async {
+  setState(() {
+    _isLoading = true;
+  });
+  try {
+    final UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
+    final user = userCredential.user;
+    final userData = {
+      'email': user?.email,
+      'displayName': user?.displayName,
+      'photoURL': user?.photoURL,
+      'createdAt': FieldValue.serverTimestamp(),
+    };
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user?.uid)
+        .set(userData);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => MyStatefulWidget(),
+      ),
+    );
+  } on FirebaseAuthException catch (e) {
+    String errorMessage = 'Autentikoinnissa tapahtui virhe';
+    if (e.code == 'user-not-found') {
+      errorMessage = 'Sähköposti tai salasana on väärä';
+    } else if (e.code == 'wrong-password') {
+      errorMessage = 'Sähköposti tai salasana on väärä';
     }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(errorMessage),
+      ),
+    );
+  } finally {
+    setState(() {
+      _isLoading = false;
+    });
   }
+}
 
 @override
 void dispose() {
