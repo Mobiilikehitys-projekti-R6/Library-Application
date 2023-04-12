@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>509276437065-g2v1lkrblaqcfncnp5er5b0krgrasgnl.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.509276437065-g2v1lkrblaqcfncnp5er5b0krgrasgnl</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAowD862UwDkHC56WH64WpZACAefqPlDAY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>509276437065</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.libraryApp</string>
+	<key>PROJECT_ID</key>
+	<string>kirjasto-projekt1</string>
+	<key>STORAGE_BUCKET</key>
+	<string>kirjasto-projekt1.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:509276437065:ios:c17ac491c842ab41e79d98</string>
+</dict>
+</plist>
