@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:library_app/pages/login_page.dart';
 import 'package:library_app/pages/profileSet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Myprofile extends StatefulWidget {
   const Myprofile({Key? key}) : super(key: key);
@@ -34,16 +35,19 @@ class _MyprofileState extends State<Myprofile> {
       print('Error getting document: $error');
     });
   }
-void _updateProfilePicture(File image) {
-  setState(() {
-    _image = image;
-  });
-}
-@override
-void initState() {
-  super.initState();
-  _updateProfile();
-}
+
+  void _updateProfilePicture(File image) {
+    setState(() {
+      _image = image;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _updateProfile();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,6 +80,7 @@ void initState() {
             ),
             IconButton(
               onPressed: () {
+                FirebaseAuth.instance.signOut();
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const LoginPage()),
@@ -93,10 +98,8 @@ void initState() {
           children: <Widget>[
             InkWell(
               child: CircleAvatar(
-              backgroundImage: _image != null
-                ? FileImage(_image!)
-                : AssetImage('') as ImageProvider<Object>?,
-              radius: 70,
+                backgroundImage: _image != null ? FileImage(_image!) : null,
+                radius: 70,
               ),
             ),
             SizedBox(height: 10),
