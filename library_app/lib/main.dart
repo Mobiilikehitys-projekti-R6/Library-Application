@@ -7,8 +7,6 @@ import 'package:library_app/pages/profile.dart';
 import 'package:library_app/pages/login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-final FirebaseAuth _auth = FirebaseAuth.instance;
-
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

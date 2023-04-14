@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:library_app/pages/calendar.dart';
 
 class MyHome extends StatelessWidget {
-  const MyHome({Key? key});
+  MyHome({Key? key});
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -19,6 +21,43 @@ class MyHome extends StatelessWidget {
             ),
           ),
           centerTitle: true,
+          actions: [
+IconButton(
+  icon: Icon(Icons.admin_panel_settings),
+  color: Color(0xFF25BE70),
+  onPressed: () async {
+final snapshot = await FirebaseFirestore.instance
+    .collection("users")
+    .where("isAdmin", isEqualTo: true)
+    .limit(1)
+    .get();
+
+if (snapshot.docs.isNotEmpty) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => MyCalendar(),
+    ),
+  );
+} else {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("Tapahtui virhe!"),
+        content: Text("Tämä sivu on vain Järjestelmävalvojille!"),
+        actions: [
+          TextButton(
+            child: Text("OK"),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
+      );
+    },
+  );
+  };
+}),
+          ],
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -158,3 +197,4 @@ class MyHome extends StatelessWidget {
 );
 
 }
+

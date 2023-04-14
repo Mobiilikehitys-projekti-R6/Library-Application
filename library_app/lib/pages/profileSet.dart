@@ -26,15 +26,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   late User user;
   late String userId;
 
-  @override
-  void initState() {
-    super.initState();
-    user = FirebaseAuth.instance.currentUser!;
-    _nameController.text = user.displayName!;
-    _photoURL = user.photoURL ?? ''; // Add this line
-    userId = user.uid;
-  }
-
   Future<void> _selectProfileImage() async {
     final ImagePicker _picker = ImagePicker();
     final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -89,7 +80,7 @@ Future<void> updateUserDisplayName(String displayName) async {
                 child: CircleAvatar(
                   radius: 50,
                   backgroundImage: _photoURL.isNotEmpty ? NetworkImage(_photoURL)
-                  : AssetImage('') as ImageProvider<Object>?,
+                  : null,
                 ),
               ),
               SizedBox(height: 20),

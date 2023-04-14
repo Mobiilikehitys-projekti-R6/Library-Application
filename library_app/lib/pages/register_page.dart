@@ -30,6 +30,7 @@ class RegisterPageState extends State<RegisterPage> {
     try {
       await FirebaseFirestore.instance.collection('users').add({
         'email': email,
+        'isAdmin' : false,
       });
     } catch (e) {
       print('Tapahtui virhe. Yritä hetken päästä uudelleen.');
@@ -164,6 +165,7 @@ class RegisterPageState extends State<RegisterPage> {
                         await _auth.createUserWithEmailAndPassword(
                       email: email,
                       password: password,
+                      
                     );
                     await addUserDetails(email);
                     Navigator.of(context).pushReplacement(
