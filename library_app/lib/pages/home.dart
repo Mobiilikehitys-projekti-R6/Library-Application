@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:library_app/pages/addBooks.dart';
 import 'package:library_app/pages/calendar.dart';
 
 class MyHome extends StatelessWidget {
@@ -29,14 +30,13 @@ IconButton(
 final snapshot = await FirebaseFirestore.instance
     .collection("users")
     .where("isAdmin", isEqualTo: true)
-    .limit(1)
     .get();
 
 if (snapshot.docs.isNotEmpty) {
   Navigator.push(
     context,
     MaterialPageRoute(
-      builder: (context) => MyCalendar(),
+      builder: (context) => AdminPage(),
     ),
   );
 } else {

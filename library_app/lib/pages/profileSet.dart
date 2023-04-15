@@ -116,7 +116,7 @@ Future<void> updateUserDisplayName(String displayName) async {
                       setState(() {
                         _name = _nameController.text;
                         _photoURL = _photoController.text;
-                       /* _email = _emailController.text;
+                        /*_email = _emailController.text;
                         _info = _infoController.text;*/
                       });
                       await updateUserDisplayName(_name);

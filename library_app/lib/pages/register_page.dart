@@ -15,8 +15,7 @@ class RegisterPageState extends State<RegisterPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
@@ -30,7 +29,6 @@ class RegisterPageState extends State<RegisterPage> {
     try {
       await FirebaseFirestore.instance.collection('users').add({
         'email': email,
-        'isAdmin' : false,
       });
     } catch (e) {
       print('Tapahtui virhe. Yritä hetken päästä uudelleen.');
@@ -150,8 +148,7 @@ class RegisterPageState extends State<RegisterPage> {
                 onPressed: () async {
                   final String email = _emailController.text.trim();
                   final String password = _passwordController.text.trim();
-                  final String confirmPassword =
-                      _confirmPasswordController.text.trim();
+                  final String confirmPassword = _confirmPasswordController.text.trim();
                   if (password != confirmPassword) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -161,11 +158,9 @@ class RegisterPageState extends State<RegisterPage> {
                     return;
                   }
                   try {
-                    final UserCredential userCredential =
-                        await _auth.createUserWithEmailAndPassword(
+                    final UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
                       email: email,
-                      password: password,
-                      
+                      password: password,                     
                     );
                     await addUserDetails(email);
                     Navigator.of(context).pushReplacement(
