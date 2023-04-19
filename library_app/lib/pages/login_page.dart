@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:library_app/pages/register_page.dart';
+import 'package:library_app/pages/verify_email_page.dart';
 import '../main.dart';
 
 class LoginPage extends StatefulWidget {
@@ -17,64 +18,70 @@ class _LoginPageState extends State<LoginPage> {
 
   bool _isLoading = false;
 
-Future<void> _signInWithEmailAndPassword() async {
-  FirebaseAuth _auth = FirebaseAuth.instance;
-  setState(() {
-    _isLoading = true;
-  });
+  Future<void> _signInWithEmailAndPassword() async {
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    setState(() {
+      _isLoading = true;
+    });
 
-  try {
-    final UserCredential userCredential =
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: _emailController.text,
-      password: _passwordController.text,
-    );
-    final user = userCredential.user;
+    try {
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+      final user = userCredential.user;
 
-    // Check if user document exists in Firestore
-    final userDoc = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user?.uid)
-        .get();
-
-    if (!userDoc.exists) {
-      // Create new user document if it doesn't exist
-      final userData = {
-        'email': user?.email,
-        'uid': _auth.currentUser?.uid,
-        'createdAt': FieldValue.serverTimestamp(),
-      };
-      await FirebaseFirestore.instance
+      // Check if user document exists in Firestore
+      final userDoc = await FirebaseFirestore.instance
           .collection('users')
           .doc(user?.uid)
-          .set(userData);
-    }
+          .get();
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (BuildContext context) => MyStatefulWidget(),
-      ),
-    );
-  } on FirebaseAuthException catch (e) {
-    String errorMessage = 'Autentikoinnissa tapahtui virhe';
-    if (e.code == 'user-not-found') {
-      errorMessage = 'Sähköposti tai salasana on väärä';
-    } else if (e.code == 'wrong-password') {
-      errorMessage = 'Sähköposti tai salasana on väärä';
+      if (!userDoc.exists) {
+        // Create new user document if it doesn't exist
+        final userData = {
+          'email': user?.email,
+          'uid': _auth.currentUser?.uid,
+          'createdAt': FieldValue.serverTimestamp(),
+        };
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user?.uid)
+            .set(userData);
+      }
+      if (user!.emailVerified) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => MyStatefulWidget(),
+          ),
+        );
+      } else {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (BuildContext context) => const VerifyEmailPage(),
+          ),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      String errorMessage = 'Autentikoinnissa tapahtui virhe';
+      if (e.code == 'user-not-found') {
+        errorMessage = 'Sähköposti tai salasana on väärä';
+      } else if (e.code == 'wrong-password') {
+        errorMessage = 'Sähköposti tai salasana on väärä';
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorMessage),
+        ),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(errorMessage),
-      ),
-    );
-  } finally {
-    setState(() {
-      _isLoading = false;
-    });
   }
-}
-
 
   @override
   void dispose() {
