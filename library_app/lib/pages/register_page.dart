@@ -26,9 +26,11 @@ class RegisterPageState extends State<RegisterPage> {
   }
 
   Future<void> addUserDetails(String email) async {
+    FirebaseAuth _auth = FirebaseAuth.instance;
     try {
       await FirebaseFirestore.instance.collection('users').add({
         'email': email,
+        'uid': _auth.currentUser?.uid,
       });
     } catch (e) {
       print('Tapahtui virhe. Yritä hetken päästä uudelleen.');
@@ -162,7 +164,7 @@ class RegisterPageState extends State<RegisterPage> {
                       email: email,
                       password: password,                     
                     );
-                    await addUserDetails(email);
+                    //await addUserDetails(email);
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
                         builder: (BuildContext context) =>
@@ -190,6 +192,7 @@ class RegisterPageState extends State<RegisterPage> {
                       ),
                     );
                   }
+                  await addUserDetails(email);
                 },
                 child: const Text('Luo Tili'),
                 style: ElevatedButton.styleFrom(

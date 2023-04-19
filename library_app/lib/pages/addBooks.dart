@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ class _AdminState extends State<AdminPage> {
       }
     });
   }
-  
+  int counter = 1;
 Future<void> _uploadImageToFirebase() async {
   if (_imageFile == null) {
     return;
@@ -36,7 +37,7 @@ Future<void> _uploadImageToFirebase() async {
   final uniqueId = uuid.v4(); // generates a random UUID
 
   final Reference firebaseStorageRef =
-      FirebaseStorage.instance.ref().child('profile-images/$uniqueId.jpg');
+      FirebaseStorage.instance.ref().child('book-images/$_name/$uniqueId.jpg');
 
   final metadata = SettableMetadata(
       contentType: 'image/jpeg',
@@ -44,13 +45,23 @@ Future<void> _uploadImageToFirebase() async {
         'name': _name,
       });
 
-  final UploadTask uploadTask =
-      firebaseStorageRef.putFile(_imageFile!, metadata);
+  final UploadTask uploadTask = firebaseStorageRef.putFile(_imageFile!, metadata);
 
   final TaskSnapshot downloadUrl = (await uploadTask);
   final String url = await downloadUrl.ref.getDownloadURL();
 
   print("URL of the uploaded image: $url");
+  final CollectionReference booksCollection = FirebaseFirestore.instance.collection('books');
+
+  final String bookId = 'id$counter';
+  final String imageUrl = firebaseStorageRef.fullPath.replaceAll('$uniqueId.jpg', '$bookId.jpg');
+  counter++;
+
+  await booksCollection.add({
+    'name': _name,
+    'id': bookId,
+    'image_url': imageUrl,
+  });
 }
 
   @override
