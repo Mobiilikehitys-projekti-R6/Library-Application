@@ -51,12 +51,17 @@ Future<void> _signInWithEmailAndPassword() async {
           .set(userData);
     }
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (BuildContext context) => MyStatefulWidget(),
-      ),
-    );
+    if(user!.emailVerified) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => MyStatefulWidget(),
+        ),
+      );
+    } else {
+      //TODO: Ilmoita käyttäjälle verifioinnin puuttumisesta!
+    }
+
   } on FirebaseAuthException catch (e) {
     String errorMessage = 'Autentikoinnissa tapahtui virhe';
     if (e.code == 'user-not-found') {
