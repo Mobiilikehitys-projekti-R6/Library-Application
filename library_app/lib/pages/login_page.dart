@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:library_app/pages/register_page.dart';
 import '../main.dart';
+import 'package:library_app/pages/reset.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -214,8 +215,17 @@ Future<void> _signInWithEmailAndPassword() async {
                   padding: EdgeInsets.symmetric(vertical: 15, horizontal: 14),
                 ),
               ),
+               Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextButton(
+                child: Text('Forgot Password?'),
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => ResetScreen()),))
             ],
           ),
+            ]
+          )
         ),
       ),
     );
