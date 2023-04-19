@@ -27,7 +27,7 @@ class _AdminState extends State<AdminPage> {
       }
     });
   }
-  
+  int counter = 1;
 Future<void> _uploadImageToFirebase() async {
   if (_imageFile == null) {
     return;
@@ -37,7 +37,7 @@ Future<void> _uploadImageToFirebase() async {
   final uniqueId = uuid.v4(); // generates a random UUID
 
   final Reference firebaseStorageRef =
-      FirebaseStorage.instance.ref().child('profile-images/$_name/$uniqueId.jpg');
+      FirebaseStorage.instance.ref().child('book-images/$_name/$uniqueId.jpg');
 
   final metadata = SettableMetadata(
       contentType: 'image/jpeg',
@@ -45,19 +45,23 @@ Future<void> _uploadImageToFirebase() async {
         'name': _name,
       });
 
-  final UploadTask uploadTask =
-      firebaseStorageRef.putFile(_imageFile!, metadata);
+  final UploadTask uploadTask = firebaseStorageRef.putFile(_imageFile!, metadata);
 
   final TaskSnapshot downloadUrl = (await uploadTask);
   final String url = await downloadUrl.ref.getDownloadURL();
 
   print("URL of the uploaded image: $url");
-    final CollectionReference booksCollection =
-      FirebaseFirestore.instance.collection('books');
-  final CollectionReference bookDetailsCollection =
-      booksCollection.doc(_name).collection('details');
-  final String bookId = uniqueId;
-  await bookDetailsCollection.doc(bookId).set({'name': _name, 'id': bookId});
+  final CollectionReference booksCollection = FirebaseFirestore.instance.collection('books');
+
+  final String bookId = 'id$counter';
+  final String imageUrl = firebaseStorageRef.fullPath.replaceAll('$uniqueId.jpg', '$bookId.jpg');
+  counter++;
+
+  await booksCollection.add({
+    'name': _name,
+    'id': bookId,
+    'image_url': imageUrl,
+  });
 }
 
   @override
