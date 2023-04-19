@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+
 class AdminPage extends StatefulWidget {
   @override
   _AdminState createState() => _AdminState();
@@ -12,7 +13,7 @@ class AdminPage extends StatefulWidget {
 
 class _AdminState extends State<AdminPage> {
   final _formKey = GlobalKey<FormState>();
-  File _imageFile = File('');
+  late File? _imageFile = null;
   String _name = '';
   String _reservationDate = '';
 
@@ -44,7 +45,7 @@ Future<void> _uploadImageToFirebase() async {
       });
 
   final UploadTask uploadTask =
-      firebaseStorageRef.putFile(_imageFile, metadata);
+      firebaseStorageRef.putFile(_imageFile!, metadata);
 
   final TaskSnapshot downloadUrl = (await uploadTask);
   final String url = await downloadUrl.ref.getDownloadURL();
@@ -68,7 +69,7 @@ Future<void> _uploadImageToFirebase() async {
               SizedBox(height: 20.0),
               _imageFile == null
                   ? Text('No image selected.')
-                  : Image.file(_imageFile),
+                  : Image.file(_imageFile!),
               SizedBox(height: 20.0),
               ElevatedButton(
                 child: Text('Choose Image'),
