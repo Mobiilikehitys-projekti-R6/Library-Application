@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ Future<void> _uploadImageToFirebase() async {
   final uniqueId = uuid.v4(); // generates a random UUID
 
   final Reference firebaseStorageRef =
-      FirebaseStorage.instance.ref().child('profile-images/$uniqueId.jpg');
+      FirebaseStorage.instance.ref().child('profile-images/$_name/$uniqueId.jpg');
 
   final metadata = SettableMetadata(
       contentType: 'image/jpeg',
@@ -51,6 +52,12 @@ Future<void> _uploadImageToFirebase() async {
   final String url = await downloadUrl.ref.getDownloadURL();
 
   print("URL of the uploaded image: $url");
+    final CollectionReference booksCollection =
+      FirebaseFirestore.instance.collection('books');
+  final CollectionReference bookDetailsCollection =
+      booksCollection.doc(_name).collection('details');
+  final String bookId = uniqueId;
+  await bookDetailsCollection.doc(bookId).set({'name': _name, 'id': bookId});
 }
 
   @override
