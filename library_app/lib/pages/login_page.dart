@@ -225,7 +225,11 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextButton(
-                  child: Text('Forgot Password?'),
+                  child: Text('Unohtuiko salasana?',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF25BE70),
+                          ),),
                   onPressed: () => Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => ResetScreen()),
                       ))
