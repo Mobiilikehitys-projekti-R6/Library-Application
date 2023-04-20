@@ -27,7 +27,7 @@ class _AdminState extends State<AdminPage> {
       }
     });
   }
-  int counter = 1;
+
 Future<void> _uploadImageToFirebase() async {
   if (_imageFile == null) {
     return;
@@ -43,6 +43,8 @@ Future<void> _uploadImageToFirebase() async {
       contentType: 'image/jpeg',
       customMetadata: {
         'name': _name,
+        'reservation_date': _reservationDate,
+        // add more metadata fields as needed
       });
 
   final UploadTask uploadTask = firebaseStorageRef.putFile(_imageFile!, metadata);
@@ -51,18 +53,15 @@ Future<void> _uploadImageToFirebase() async {
   final String url = await downloadUrl.ref.getDownloadURL();
 
   print("URL of the uploaded image: $url");
-  final CollectionReference booksCollection = FirebaseFirestore.instance.collection('books');
-
-  final String bookId = 'id$counter';
-  final String imageUrl = firebaseStorageRef.fullPath.replaceAll('$uniqueId.jpg', '$bookId.jpg');
-  counter++;
-
-  await booksCollection.add({
+  
+  await FirebaseFirestore.instance.collection('books').add({
     'name': _name,
-    'id': bookId,
-    'image_url': imageUrl,
+    'reservation_date': _reservationDate,
+    'image_url': url,
+    // add more fields as needed
   });
 }
+
 
   @override
   Widget build(BuildContext context) {
