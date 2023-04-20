@@ -5,30 +5,55 @@ import 'package:library_app/pages/addBooks.dart';
 
 
 Future<List<List<Map<String, dynamic>>>> getDataFromFolders() async {
-  final FirebaseStorage storage = FirebaseStorage.instance;
-  final ListResult result = await storage.ref().child('book-images').listAll();
+  try {
+    final FirebaseStorage storage = FirebaseStorage.instance;
+    final ListResult result = await storage.ref().child('book-images').listAll();
 
-  final List<List<Map<String, dynamic>>> dataArrays = [];
+    final List<List<Map<String, dynamic>>> dataArrays = [];
 
-  for (final Reference ref in result.items) {
-    final String folderName = ref.name;
-    final List<Map<String, dynamic>> dataArray = [];
+    for (final Reference ref in result.items) {
+      final List<Map<String, dynamic>> dataArray = [];
 
-final QuerySnapshot querySnapshot = (await FirebaseFirestore.instance
-    .collection('books')
-    .doc(folderName)
-    .get()) as QuerySnapshot<Object?>;
+      final ListResult filesResult = await ref.listAll();
 
-    querySnapshot.docs.forEach((doc) {
-      final Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-      dataArray.add(data);
-    });
+      for (final Reference fileRef in filesResult.items) {
+        final String imageUrl = await fileRef.getDownloadURL();
 
-    dataArrays.add(dataArray);
+        if (imageUrl.isEmpty) {
+          print('Download URL is empty');
+        }
+
+        final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+            .collection('books')
+            .where('image_url', isEqualTo: imageUrl)
+            .get();
+
+        if (querySnapshot.docs.isEmpty) {
+          print('No documents found with the image_url: $imageUrl');
+        }
+
+        final Map<String, dynamic> data = {
+          'name': querySnapshot.docs.first['name'],
+          'image_url': imageUrl,
+        };
+
+        dataArray.add(data);
+      }
+
+      dataArrays.add(dataArray);
+    }
+
+    return dataArrays;
+  } catch (e) {
+    print('Error: $e');
+    rethrow;
   }
-
-  return dataArrays;
 }
+
+
+
+
+
 
 class MyHome extends StatelessWidget {
   MyHome({Key? key});
@@ -136,6 +161,8 @@ FutureBuilder<List<List<Map<String, dynamic>>>>(
 
     if (snapshot.hasError) {
       return Text('Error: ${snapshot.error}');
+    } else {
+      print('We have data! ${snapshot.data}');
     }
 
     final dataArrays = snapshot.data!;
@@ -153,20 +180,20 @@ FutureBuilder<List<List<Map<String, dynamic>>>>(
             for (int i = 0; i < dataArray.length; i++)
               Container(
                 padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                child: Column(
+                child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Image.asset(
+                    Image.network(
                       dataArray[i]['image_url'],
                       height: 120,
                     ),
                     SizedBox(height: 5),
-                    /*Text(
-                      dataArray[i]['id'],
+                    Text(
+                      dataArray[i]['name'],
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                       ),
-                    ),*/
+                    ),
                   ],
                 ),
               ),
@@ -175,6 +202,8 @@ FutureBuilder<List<List<Map<String, dynamic>>>>(
     );
   },
 ),
+
+
       Container(
         padding: EdgeInsets.only(top: 16),
         child: Column(
