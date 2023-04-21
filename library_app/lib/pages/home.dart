@@ -22,8 +22,8 @@ class _MyHomeState extends State<MyHome> {
       builder: (_) => AlertDialog(
         contentPadding: EdgeInsets.all(16),
         content: Container(
-          height: 530,
-          width: 300,
+          height: 630,
+          width: 400,
           child: Stack(
             children: [
               Container(
@@ -60,18 +60,56 @@ class _MyHomeState extends State<MyHome> {
                     ),
                   ),
                   SizedBox(height: 5),
-                  Wrap(
-                    spacing: 5,
+                  Row(
                     children: [
-                      for (var tag in bookData["tags"])
-                        Chip(
-                          label: Text(tag),
-                          backgroundColor: Colors.white,
-                          labelStyle: TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w600,
-                          ),
+                      Expanded(
+                        child: Wrap(
+                          spacing: 1,
+                          children: [
+                            if (bookData["tags"].length >= 1)
+                              Chip(
+                                label: Text(bookData["tags"][0]),
+                                backgroundColor: Colors.white,
+                                labelStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            if (bookData["tags"].length >= 2)
+                              Chip(
+                                label: Text(bookData["tags"][1]),
+                                backgroundColor: Colors.white,
+                                labelStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            if (bookData["tags"].length > 2)
+                              PopupMenuButton(
+                                itemBuilder: (BuildContext context) {
+                                  return [
+                                    for (var i = 2;
+                                        i < bookData["tags"].length;
+                                        i++)
+                                      PopupMenuItem(
+                                        child: Text(bookData["tags"][i]),
+                                      ),
+                                  ];
+                                },
+                                child: Chip(
+                                  label:
+                                      Text("+${bookData["tags"].length - 2}"),
+                                  backgroundColor: Colors.white,
+                                  labelStyle: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
+                      ),
                     ],
                   ),
                   SizedBox(height: 20),
@@ -85,11 +123,36 @@ class _MyHomeState extends State<MyHome> {
                     ),
                   ),
                   SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: Text("Varaa"),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {},
+                          child: Text(
+                            'Varaa',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xFF25BE70),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            textStyle: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 40),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  SizedBox(height: 20),
                 ],
               ),
             ],
