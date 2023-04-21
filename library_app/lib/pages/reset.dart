@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
 class ResetScreen extends StatefulWidget {
   @override
   _ResetScreenState createState() => _ResetScreenState();
 }
 
 class _ResetScreenState extends State<ResetScreen> {
-  String email="email";
+  String email = "email";
   final auth = FirebaseAuth.instance;
 
   @override
@@ -43,15 +42,15 @@ class _ResetScreenState extends State<ResetScreen> {
               child: Padding(
                 padding: EdgeInsets.only(left: 15.0),
                 child: TextField(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Sähköposti',
-                  ),
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Sähköposti',
+                    ),
                     onChanged: (value) {
                       setState(() {
-                        email = value.trim();               
-                });
-  }),
+                        email = value.trim();
+                      });
+                    }),
               ),
             ),
           ),
@@ -76,10 +75,10 @@ class _ResetScreenState extends State<ResetScreen> {
               ),
               padding: EdgeInsets.symmetric(vertical: 15, horizontal: 14),
             ),
-                onPressed: () {
-                  auth.sendPasswordResetEmail(email: email);
-                  Navigator.of(context).pop();
-                },
+            onPressed: () {
+              auth.sendPasswordResetEmail(email: email);
+              Navigator.of(context).pop();
+            },
           ),
         ])),
       ),

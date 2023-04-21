@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:library_app/pages/login_page.dart';
 import 'package:library_app/pages/profileSet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,29 +15,28 @@ class Myprofile extends StatefulWidget {
 
 class _MyprofileState extends State<Myprofile> {
   String _name = '';
-  File? _image;
+  String _email = '';
+  String _info = '';
 
   void _updateProfile() {
+    User? user = FirebaseAuth.instance.currentUser;
+
     FirebaseFirestore.instance
         .collection('users')
-        .doc('user_id_here')
+        .doc(user!.uid)
         .get()
         .then((doc) {
       if (doc.exists) {
         setState(() {
           _name = doc['displayName'];
+          _email = doc['email'];
+          _info = doc['address'];
         });
       } else {
         print('Document does not exist on the database');
       }
     }).catchError((error) {
       print('Error getting document: $error');
-    });
-  }
-
-  void _updateProfilePicture(File image) {
-    setState(() {
-      _image = image;
     });
   }
 
@@ -71,7 +69,7 @@ class _MyprofileState extends State<Myprofile> {
               icon: Icon(Icons.settings),
             ),
             Text(
-              'Profiili',
+              'Käyttäjätiedot',
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
@@ -96,17 +94,27 @@ class _MyprofileState extends State<Myprofile> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            InkWell(
-              child: CircleAvatar(
-                backgroundImage: _image != null ? FileImage(_image!) : null,
-                radius: 70,
+            SizedBox(height: 10),
+            Text(
+              "Terve, $_name",
+              style: TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
               ),
             ),
             SizedBox(height: 10),
             Text(
-              _name,
+              "Sähköposti: $_email",
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 10),
+            Text(
+              "Osoite: $_info",
+              style: TextStyle(
+                fontSize: 17,
                 fontWeight: FontWeight.bold,
               ),
             ),

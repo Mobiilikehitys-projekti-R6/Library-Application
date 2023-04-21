@@ -1,11 +1,6 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 class ProfileSettings extends StatefulWidget {
   final Function updateProfile;
@@ -15,48 +10,64 @@ class ProfileSettings extends StatefulWidget {
   @override
   _ProfileSettingsState createState() => _ProfileSettingsState();
 }
+
 class _ProfileSettingsState extends State<ProfileSettings> {
   final _formKey = GlobalKey<FormState>();
 
   String _name = '';
-  String _photoURL = '';
+  String _info = '';
 
   TextEditingController _nameController = TextEditingController();
-  TextEditingController _photoController = TextEditingController();
+  TextEditingController _infoController = TextEditingController();
+
   late User user;
   late String userId;
 
-  Future<void> _selectProfileImage() async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+  void _getData() {
+    User? user = FirebaseAuth.instance.currentUser;
 
-    if (pickedFile != null) {
-      setState(() {
-       //_imageFile = File(pickedFile.path);
-        widget.updateProfile(File(pickedFile.path));
-      });
-    }
-  }
-
-
-
-Future<void> updateUserDisplayName(String displayName) async {
-  try {
-    final user = FirebaseAuth.instance.currentUser;
-    await FirebaseFirestore.instance
+    FirebaseFirestore.instance
         .collection('users')
         .doc(user!.uid)
-        .update({'displayName': displayName});
-  } catch (e) {
-    print('Error updating user display name: $e');
+        .get()
+        .then((doc) {
+      if (doc.exists) {
+        setState(() {
+          _name = doc['displayName'];
+          _info = doc['address'];
+          _nameController.text = _name;
+          _infoController.text = _info;
+        });
+      } else {
+        print('Document does not exist on the database');
+      }
+    }).catchError((error) {
+      print('Error getting document: $error');
+    });
   }
-}
+
+  @override
+  void initState() {
+    super.initState();
+    _getData();
+  }
+
+  Future<void> updateUserDisplayName(String displayName, String address) async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user!.uid)
+          .update({'displayName': displayName, 'address': address});
+    } catch (e) {
+      print('Error updating user display name: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         backgroundColor: Color(0xFF25BE70),
         elevation: 0,
         title: const Text(
@@ -75,23 +86,28 @@ Future<void> updateUserDisplayName(String displayName) async {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              GestureDetector(
-                onTap: _selectProfileImage,
-                child: CircleAvatar(
-                  radius: 50,
-                  backgroundImage: _photoURL.isNotEmpty ? NetworkImage(_photoURL)
-                  : null,
-                ),
-              ),
               SizedBox(height: 20),
               TextFormField(
                 controller: _nameController,
                 decoration: InputDecoration(
-                  labelText: 'Nimi',
+                  labelText: 'Käyttäjänimi',
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Nimi ei voi olla tyhjä';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 20),
+              TextFormField(
+                controller: _infoController,
+                decoration: InputDecoration(
+                  labelText: 'Osoite',
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Osoite ei voi olla tyhjä';
                   }
                   return null;
                 },
@@ -115,13 +131,10 @@ Future<void> updateUserDisplayName(String displayName) async {
                     if (_formKey.currentState!.validate()) {
                       setState(() {
                         _name = _nameController.text;
-                        _photoURL = _photoController.text;
-                        /*_email = _emailController.text;
-                        _info = _infoController.text;*/
+                        _info = _infoController.text;
                       });
-                      await updateUserDisplayName(_name);
-                      widget.updateProfile(_name);
-                      //Navigator.pop(context);
+                      await updateUserDisplayName(_name, _info);
+                      widget.updateProfile(_name, _info);
                     }
                   },
                   child: const Text(
@@ -137,4 +150,3 @@ Future<void> updateUserDisplayName(String displayName) async {
     );
   }
 }
-
