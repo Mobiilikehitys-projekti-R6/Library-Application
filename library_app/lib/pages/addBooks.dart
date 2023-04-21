@@ -18,6 +18,20 @@ class _AdminState extends State<AdminPage> {
   String _description = '';
   List<String> tags = [];
 
+  final List<String> tagOptions = [
+    'Kaunokirjallisuus',
+    'Tietokirjallisuus',
+    'Rakkausromaani',
+    'Jännityskirjallisuus',
+    'Salapoliisi',
+    'Tieteiskirjallisuus',
+    'Elämäkerta',
+    'Autobiografia',
+    'Historia',
+    'Politiikka',
+    'Sci-fi'
+  ];
+
   Future<void> _pickImage(ImageSource source) async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: source);
@@ -40,9 +54,10 @@ class _AdminState extends State<AdminPage> {
         .ref()
         .child('book-images/$_name/$uniqueId.jpg');
 
-    final metadata =
-        SettableMetadata(contentType: 'image/jpeg', customMetadata: {
-      'name': _name,
+    final metadata = SettableMetadata(
+      contentType: 'image/jpeg', 
+      customMetadata: {
+        'name': _name,
     });
 
     final UploadTask uploadTask =
@@ -85,10 +100,28 @@ class _AdminState extends State<AdminPage> {
                     ),
               SizedBox(height: 20.0),
               ElevatedButton(
-                child: Text('Valitse kuva'),
                 onPressed: () {
                   _pickImage(ImageSource.gallery);
                 },
+                child: Text(
+                  'Valitse kuva',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFF25BE70),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
+                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 14),
+                ),
               ),
               SizedBox(height: 20.0),
               TextFormField(
@@ -120,15 +153,52 @@ class _AdminState extends State<AdminPage> {
                   }
                   return null;
                 },
-              ),                            
+              ),
+              SizedBox(height: 20.0),
+              Text('Tags:', style: TextStyle(fontSize: 16.0)),
+              Column(
+                children: tagOptions
+                    .map((tag) => CheckboxListTile(
+                          title: Text(tag),
+                          value: tags.contains(tag),
+                          onChanged: (checked) {
+                            setState(() {
+                              if (checked!) {
+                                tags.add(tag);
+                              } else {
+                                tags.remove(tag);
+                              }
+                            });
+                          },
+                        ))
+                    .toList(),
+              ),
               SizedBox(height: 20.0),
               ElevatedButton(
-                child: Text('Lataa kuva'),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     _uploadImageToFirebase();
                   }
                 },
+                child: Text(
+                  'Luo kirja',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFF25BE70),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
+                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 14),
+                ),
               ),
             ],
           ),

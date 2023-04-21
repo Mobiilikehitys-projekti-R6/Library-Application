@@ -16,75 +16,88 @@ class MyHome extends StatefulWidget {
 class _MyHomeState extends State<MyHome> {
   List<Map<String, dynamic>> bookList = [];
 
-void _showBookDialog(BuildContext context, dynamic bookData) {
-  showDialog(
-    context: context,
-    builder: (_) => AlertDialog(
-      contentPadding: EdgeInsets.all(16),
-      content: Container(
-        height: 530,
-        width: 300,
-        child: Stack(
-          children: [
-            Container(
-              height: 200,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                image: DecorationImage(
-                  image: NetworkImage(
-                    bookData["image_url"] ?? "",
+  void _showBookDialog(BuildContext context, dynamic bookData) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        contentPadding: EdgeInsets.all(16),
+        content: Container(
+          height: 530,
+          width: 300,
+          child: Stack(
+            children: [
+              Container(
+                height: 200,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      bookData["image_url"] ?? "",
+                    ),
+                    fit: BoxFit.cover,
                   ),
-                  fit: BoxFit.cover,
                 ),
               ),
-            ),
-            Positioned(
-              right: 0,
-              child: IconButton(
-                icon: Icon(Icons.close),
-                onPressed: () => Navigator.of(context).pop(),
+              Positioned(
+                right: 0,
+                child: IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
               ),
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                SizedBox(height: 220),
-                Text(
-                  bookData["name"] ?? "",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(height: 220),
+                  Text(
+                    bookData["name"] ?? "",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
                   ),
-                ),
-                SizedBox(height: 20),
-                Text(
-                  bookData["information"] ?? "",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.normal,
-                    fontSize: 16,
+                  SizedBox(height: 5),
+                  Wrap(
+                    spacing: 5,
+                    children: [
+                      for (var tag in bookData["tags"])
+                        Chip(
+                          label: Text(tag),
+                          backgroundColor: Colors.white,
+                          labelStyle: TextStyle(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                    ],
                   ),
-                ),
-                          SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {},
-            child: Text("Varaa"),
+                  SizedBox(height: 20),
+                  Text(
+                    bookData["description"] ?? "",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 16,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: Text("Varaa"),
+                  ),
+                  SizedBox(height: 20),
+                ],
+              ),
+            ],
           ),
-          SizedBox(height: 20),
-              ],
-            ),
-          ],
         ),
       ),
-    ),
-  );
-}
-
-
+    );
+  }
 
   @override
   void initState() {
@@ -212,10 +225,9 @@ void _showBookDialog(BuildContext context, dynamic bookData) {
                   children: [
                     for (var bookData in bookList)
                       GestureDetector(
-onTap: () {
-  _showBookDialog(context, bookData);
-},
-
+                        onTap: () {
+                          _showBookDialog(context, bookData);
+                        },
                         child: Container(
                           padding:
                               EdgeInsets.symmetric(vertical: 5, horizontal: 10),
