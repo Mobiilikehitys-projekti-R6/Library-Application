@@ -46,6 +46,7 @@ class _MyProfileState extends State<MyProfile> {
 
   @override
   Widget build(BuildContext context) {
+    _updateProfile();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,

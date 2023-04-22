@@ -16,122 +16,120 @@ class _MyBooksState extends State<MyBooks> {
   User? user = FirebaseAuth.instance.currentUser;
   List<Map<String, dynamic>> bookList = [];
 
-void _showBookDialog(BuildContext context, dynamic bookData) {
-  DateTime loanDate = DateTime.now();
-  DateTime returnDate = DateTime.now().add(Duration(days: 30));
+  void _showBookDialog(BuildContext context, dynamic bookData) {
+    DateTime loanDate = DateTime.now();
+    DateTime returnDate = DateTime.now().add(Duration(days: 30));
 
-  if (bookData.containsKey("loanDate")) {
-    var loanDateTimestamp = bookData["loanDate"];
-    if (loanDateTimestamp != null) {
-      loanDate = loanDateTimestamp.toDate();
+    if (bookData.containsKey("loanDate")) {
+      var loanDateTimestamp = bookData["loanDate"];
+      if (loanDateTimestamp != null) {
+        loanDate = loanDateTimestamp.toDate();
+      }
     }
-  }
 
-  if (bookData.containsKey("returnDate")) {
-    var returnDateTimestamp = bookData["returnDate"];
-    if (returnDateTimestamp != null) {
-      returnDate = returnDateTimestamp.toDate();
+    if (bookData.containsKey("returnDate")) {
+      var returnDateTimestamp = bookData["returnDate"];
+      if (returnDateTimestamp != null) {
+        returnDate = returnDateTimestamp.toDate();
+      }
     }
+
+    final DateFormat dateFormat = DateFormat('yyyy/MM/dd');
+
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        contentPadding: EdgeInsets.all(16),
+        content: Container(
+          height: 630,
+          width: 400,
+          child: Stack(
+            children: [
+              Container(
+                height: 200,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      bookData["image_url"] ?? "",
+                    ),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: Center(
+                  child: SizedBox(
+                    height: 150,
+                    width: 150,
+                    child: bookData["image_url"] != null
+                        ? Image.network(
+                            bookData["image_url"],
+                            fit: BoxFit.contain,
+                          )
+                        : Placeholder(),
+                  ),
+                ),
+              ),
+              Positioned(
+                right: 0,
+                child: IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(height: 220),
+                  Text(
+                    bookData["name"] ?? "",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Lainattu: ${dateFormat.format(loanDate)}",
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 17,
+                                  ),
+                                ),
+                                SizedBox(height: 8),
+                                Text(
+                                  "Palauta: ${dateFormat.format(returnDate)} mennessä",
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 17,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
-
-  final DateFormat dateFormat = DateFormat('yyyy/MM/dd');
-
-  showDialog(
-    context: context,
-    builder: (_) => AlertDialog(
-      contentPadding: EdgeInsets.all(16),
-      content: Container(
-        height: 630,
-        width: 400,
-        child: Stack(
-          children: [
-            Container(
-              height: 200,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                image: DecorationImage(
-                  image: NetworkImage(
-                    bookData["image_url"] ?? "",
-                  ),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: Center(
-                child: SizedBox(
-                  height: 150,
-                  width: 150,
-                  child: bookData["image_url"] != null
-                      ? Image.network(
-                          bookData["image_url"],
-                          fit: BoxFit.contain,
-                        )
-                      : Placeholder(),
-                ),
-              ),
-            ),
-            Positioned(
-              right: 0,
-              child: IconButton(
-                icon: Icon(Icons.close),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                SizedBox(height: 220),
-                Text(
-                  bookData["name"] ?? "",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                ),
-                SizedBox(height: 20),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-child: Center(
-  child: Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Text(
-        "Lainattu: ${dateFormat.format(loanDate)}",
-        style: TextStyle(
-          color: Colors.grey[600],
-          fontSize: 17,
-        ),
-      ),
-      SizedBox(height: 8),
-      Text(
-        "Palauta: ${dateFormat.format(returnDate)} mennessä",
-        style: TextStyle(
-          color: Colors.grey[600],
-          fontSize: 17,
-        ),
-      ),
-    ],
-  ),
-),
-
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    ),
-  );
-}
-
 
   @override
   void initState() {

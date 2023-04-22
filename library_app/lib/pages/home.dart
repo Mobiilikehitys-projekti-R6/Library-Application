@@ -243,6 +243,18 @@ class _MyHomeState extends State<MyHome> {
     );
   }
 
+  Future<QuerySnapshot>? postDocumentsList;
+  String bookText = '';
+  initSearchingPost(String textEntered) {
+    postDocumentsList = FirebaseFirestore.instance
+        .collection("books")
+        .where("name", isGreaterThanOrEqualTo: textEntered)
+        .get();
+    setState(() {
+      postDocumentsList;
+    });
+  }
+
   @override
   Widget build(BuildContext context) => Scaffold(
         extendBodyBehindAppBar: true,
@@ -306,6 +318,12 @@ class _MyHomeState extends State<MyHome> {
               Container(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
+                  onChanged: (textEntered) {
+                    setState(() {
+                      bookText = textEntered;
+                    });
+                    initSearchingPost(textEntered);
+                  },
                   decoration: InputDecoration(
                     hintText: 'Etsi...',
                     prefixIcon: Icon(Icons.search),
@@ -351,12 +369,14 @@ class _MyHomeState extends State<MyHome> {
                           _showBookDialog(context, bookData);
                         },
                         child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                          margin: EdgeInsets.symmetric(vertical: 8, horizontal: 13),
+                          padding:
+                              EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                          margin:
+                              EdgeInsets.symmetric(vertical: 8, horizontal: 13),
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.white,
-                              ),
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.white,
+                          ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
