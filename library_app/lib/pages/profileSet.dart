@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:library_app/pages/profile.dart';
 
 class ProfileSettings extends StatefulWidget {
   final Function updateProfile;
@@ -136,12 +135,11 @@ class ProfileSettingsState extends State<ProfileSettings> {
                         _info = _infoController.text;
                       });
                       await updateUserDisplayName(_name, _info);
-                    }
-                    if (mounted) {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => const MyProfile()),
-                      );
+                      if (mounted) {
+                        Navigator.pop(context, true);
+                      } else {
+                        return;
+                      }
                     }
                   },
                   child: const Text(

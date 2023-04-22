@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:library_app/pages/login_page.dart';
 import 'package:library_app/pages/profileSet.dart';
@@ -94,7 +92,7 @@ class _MyProfileState extends State<MyProfile> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               "Terve, $_name",
               style: const TextStyle(
