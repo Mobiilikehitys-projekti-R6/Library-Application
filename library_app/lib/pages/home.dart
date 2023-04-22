@@ -39,6 +39,18 @@ class _MyHomeState extends State<MyHome> {
                     fit: BoxFit.cover,
                   ),
                 ),
+                child: Center(
+                  child: SizedBox(
+                    height: 150,
+                    width: 150,
+                    child: bookData["image_url"] != null
+                        ? Image.network(
+                            bookData["image_url"],
+                            fit: BoxFit.contain,
+                          )
+                        : Placeholder(),
+                  ),
+                ),
               ),
               Positioned(
                 right: 0,
@@ -115,13 +127,18 @@ class _MyHomeState extends State<MyHome> {
                     ],
                   ),
                   SizedBox(height: 20),
-                  Text(
-                    bookData["description"] ?? "",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.normal,
-                      fontSize: 16,
+                  SizedBox(
+                    height: 200, // set a fixed height for the container
+                    child: SingleChildScrollView(
+                      child: Text(
+                        bookData["description"] ?? "",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 16,
+                        ),
+                      ),
                     ),
                   ),
                   SizedBox(height: 20),
@@ -322,11 +339,11 @@ class _MyHomeState extends State<MyHome> {
               SizedBox(
                 height: 180,
                 child: GridView.count(
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5),
                   scrollDirection: Axis.horizontal,
                   crossAxisCount: 1,
                   shrinkWrap: true,
-                  childAspectRatio: (150 / 195),
+                  childAspectRatio: (150 / 150),
                   children: [
                     for (var bookData in bookList)
                       GestureDetector(
@@ -334,20 +351,12 @@ class _MyHomeState extends State<MyHome> {
                           _showBookDialog(context, bookData);
                         },
                         child: Container(
-                          padding:
-                              EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                          margin:
-                              EdgeInsets.symmetric(vertical: 8, horizontal: 13),
+                          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                          margin: EdgeInsets.symmetric(vertical: 8, horizontal: 13),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
-                              color: Color(0xFF212325),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.4),
-                                  spreadRadius: 1,
-                                  blurRadius: 8,
-                                )
-                              ]),
+                              color: Colors.white,
+                              ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -364,8 +373,8 @@ class _MyHomeState extends State<MyHome> {
                                 bookData["name"] ?? "",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400,
+                                  color: Color(0xFF212325),
+                                  fontWeight: FontWeight.w600,
                                   fontSize: 15,
                                 ),
                               ),
