@@ -50,7 +50,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     MyHome(),
     MyBooks(),
     MyCalendar(),
-    Myprofile(),
+    MyProfile(),
   ];
 
   void _onItemTapped(int index) {

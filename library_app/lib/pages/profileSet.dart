@@ -19,8 +19,8 @@ class ProfileSettingsState extends State<ProfileSettings> {
   String _name = '';
   String _info = '';
 
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _infoController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _infoController = TextEditingController();
 
   late User user;
   late String userId;
@@ -70,7 +70,7 @@ class ProfileSettingsState extends State<ProfileSettings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF25BE70),
+        backgroundColor: const Color(0xFF25BE70),
         elevation: 0,
         title: const Text(
           'Asetukset',
@@ -88,10 +88,10 @@ class ProfileSettingsState extends State<ProfileSettings> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextFormField(
                 controller: _nameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Käyttäjänimi',
                 ),
                 validator: (value) {
@@ -101,10 +101,10 @@ class ProfileSettingsState extends State<ProfileSettings> {
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextFormField(
                 controller: _infoController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Osoite',
                 ),
                 validator: (value) {
@@ -114,10 +114,10 @@ class ProfileSettingsState extends State<ProfileSettings> {
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Container(
                 decoration: BoxDecoration(
-                  color: Color(0xFF25BE70),
+                  color: const Color(0xFF25BE70),
                   border: Border.all(color: Colors.white),
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -137,9 +137,12 @@ class ProfileSettingsState extends State<ProfileSettings> {
                       });
                       await updateUserDisplayName(_name, _info);
                     }
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => MyProfile()),
-                    );
+                    if (mounted) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => const MyProfile()),
+                      );
+                    }
                   },
                   child: const Text(
                     'Tallenna',
