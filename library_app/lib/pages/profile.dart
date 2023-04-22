@@ -6,14 +6,14 @@ import 'package:library_app/pages/profileSet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class Myprofile extends StatefulWidget {
-  const Myprofile({Key? key}) : super(key: key);
+class MyProfile extends StatefulWidget {
+  const MyProfile({Key? key}) : super(key: key);
 
   @override
-  State<Myprofile> createState() => _MyprofileState();
+  State<MyProfile> createState() => _MyProfileState();
 }
 
-class _MyprofileState extends State<Myprofile> {
+class _MyProfileState extends State<MyProfile> {
   String _name = '';
   String _email = '';
   String _info = '';

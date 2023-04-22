@@ -1,17 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:library_app/pages/profile.dart';
 
 class ProfileSettings extends StatefulWidget {
   final Function updateProfile;
 
-  ProfileSettings({Key? key, required this.updateProfile}) : super(key: key);
+  const ProfileSettings({Key? key, required this.updateProfile})
+      : super(key: key);
 
   @override
-  _ProfileSettingsState createState() => _ProfileSettingsState();
+  ProfileSettingsState createState() => ProfileSettingsState();
 }
 
-class _ProfileSettingsState extends State<ProfileSettings> {
+class ProfileSettingsState extends State<ProfileSettings> {
   final _formKey = GlobalKey<FormState>();
 
   String _name = '';
@@ -134,8 +136,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         _info = _infoController.text;
                       });
                       await updateUserDisplayName(_name, _info);
-                      widget.updateProfile(_name, _info);
                     }
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => MyProfile()),
+                    );
                   },
                   child: const Text(
                     'Tallenna',
