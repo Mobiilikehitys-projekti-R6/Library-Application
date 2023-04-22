@@ -51,7 +51,7 @@ class _MyProfileState extends State<MyProfile> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Color(0xFF25BE70),
+        backgroundColor: const Color(0xFF25BE70),
         elevation: 0,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -66,9 +66,9 @@ class _MyProfileState extends State<MyProfile> {
                   ),
                 );
               },
-              icon: Icon(Icons.settings),
+              icon: const Icon(Icons.settings),
             ),
-            Text(
+            const Text(
               'Käyttäjätiedot',
               style: TextStyle(
                 color: Colors.white,
@@ -84,7 +84,7 @@ class _MyProfileState extends State<MyProfile> {
                   MaterialPageRoute(builder: (context) => const LoginPage()),
                 );
               },
-              icon: Icon(Icons.logout),
+              icon: const Icon(Icons.logout),
             ),
           ],
         ),
@@ -97,23 +97,23 @@ class _MyProfileState extends State<MyProfile> {
             SizedBox(height: 10),
             Text(
               "Terve, $_name",
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               "Sähköposti: $_email",
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               "Osoite: $_info",
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
               ),
