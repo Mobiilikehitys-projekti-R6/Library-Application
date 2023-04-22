@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:library_app/pages/addBooks.dart';
-
-import '../dialogService.dart';
 
 FirebaseFirestore db = FirebaseFirestore.instance;
 
@@ -17,6 +16,9 @@ class _MyHomeState extends State<MyHome> {
   List<Map<String, dynamic>> bookList = [];
 
   void _showBookDialog(BuildContext context, dynamic bookData) {
+    DateTime loanDate = DateTime.now();
+    DateTime returnDate = loanDate.add(Duration(days: 30));
+
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
@@ -128,7 +130,45 @@ class _MyHomeState extends State<MyHome> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            final user = FirebaseAuth.instance.currentUser;
+                            final userId = user?.uid;
+                            db
+                                .collection("books")
+                                .doc(bookData["bookID"])
+                                .update({
+                                  "isLoaned": true,
+                                  "loanedBy": FieldValue.arrayUnion([userId])
+                                })
+                                .then((_) =>
+                                    print("Loan status updated successfully!"))
+                                .catchError((error) => print(
+                                    "Failed to update loan status: $error"));
+                            db
+                                .collection("users")
+                                .doc(userId)
+                                .update({
+                                  "loanedBooks": FieldValue.arrayUnion([
+                                    {
+                                      "bookName": bookData["name"],
+                                      "bookID": bookData["bookID"],
+                                      "loanDate": loanDate,
+                                      "returnDate": returnDate,
+                                      "returned": false,
+                                    }
+                                  ]),
+                                  "loanHist": FieldValue.arrayUnion([
+                                    {
+                                      "bookName": bookData["name"],
+                                      "bookID": bookData["bookID"],
+                                    }
+                                  ])
+                                })
+                                .then((_) =>
+                                    print("User data updated successfully!"))
+                                .catchError((error) => print(
+                                    "Failed to update user data: $error"));
+                          },
                           child: Text(
                             'Varaa',
                             style: TextStyle(
@@ -147,7 +187,9 @@ class _MyHomeState extends State<MyHome> {
                               fontSize: 14,
                             ),
                             padding: EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 40),
+                              vertical: 15,
+                              horizontal: 40,
+                            ),
                           ),
                         ),
                       ],

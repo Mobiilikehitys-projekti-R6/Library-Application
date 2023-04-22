@@ -20,16 +20,35 @@ class _AdminState extends State<AdminPage> {
 
   final List<String> tagOptions = [
     'Kaunokirjallisuus',
-    'Tietokirjallisuus',
-    'Rakkausromaani',
+    'Romaanit',
+    'Lastenkirjallisuus',
+    'Käännökset',
+    'Englanninkielinen kirjallisuus',
+    'Suomenkielinen kirjallisuus',
+    'Kuvakirjat',
+    'Kertomukset',
+    'Elokuvat',
+    'Nuortenkirjallisuus',
+    'Sarjakuvat',
     'Jännityskirjallisuus',
-    'Salapoliisi',
-    'Tieteiskirjallisuus',
-    'Elämäkerta',
-    'Autobiografia',
-    'Historia',
-    'Politiikka',
-    'Sci-fi'
+    'Skönlitteratur',
+    'Rikoskirjallisuus',
+    'Muistelmat',
+    'Psykologiset romaanit',
+    'Äänikirjat',
+    'Fiktio',
+    'Oppaat (teokset)',
+    'Lukemisesteisten äänikirjat',
+    'Romaner',
+    'Fantasiakirjallisuus',
+    'Viihdekirjallisuus',
+    'Runot',
+    'Huumori',
+    'Rakkausromaanit',
+    'Historialliset romaanit',
+    'Rock',
+    'Matkaoppaat',
+    'Elämäkerrat'
   ];
 
   Future<void> _pickImage(ImageSource source) async {
@@ -54,10 +73,9 @@ class _AdminState extends State<AdminPage> {
         .ref()
         .child('book-images/$_name/$uniqueId.jpg');
 
-    final metadata = SettableMetadata(
-      contentType: 'image/jpeg', 
-      customMetadata: {
-        'name': _name,
+    final metadata =
+        SettableMetadata(contentType: 'image/jpeg', customMetadata: {
+      'name': _name,
     });
 
     final UploadTask uploadTask =
@@ -68,11 +86,14 @@ class _AdminState extends State<AdminPage> {
 
     print("URL of the uploaded image: $url");
 
-    await FirebaseFirestore.instance.collection('books').add({
+    await FirebaseFirestore.instance.collection('books').doc(uniqueId).set({
       'name': _name,
+      'bookID': uniqueId,
       'description': _description,
       'image_url': url,
+      'isLoaned': false,
       'tags': tags,
+      'timestamp': FieldValue.serverTimestamp(),
     });
   }
 
