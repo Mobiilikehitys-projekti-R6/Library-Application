@@ -263,9 +263,8 @@ class _AllBooksPageState extends State<AllBooksPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        extendBodyBehindAppBar: true,
+        //extendBodyBehindAppBar: true,
         appBar: AppBar(
-          automaticallyImplyLeading: false,
           backgroundColor: Color.fromARGB(68, 255, 255, 255),
           elevation: 0,
           title: const Text(
@@ -318,9 +317,6 @@ class _AllBooksPageState extends State<AllBooksPage> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(
-                height: 100,
-              ),
               Container(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
@@ -372,7 +368,7 @@ class _AllBooksPageState extends State<AllBooksPage> {
                 height: 15,
               ),
               SizedBox(
-                height: 550,
+                height: 525,
                 child: GridView.count(
                   padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5),
                   scrollDirection: Axis.vertical,
