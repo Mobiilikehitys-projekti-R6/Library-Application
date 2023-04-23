@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:library_app/pages/addBooks.dart';
+import 'package:library_app/searchBar.dart';
 
 FirebaseFirestore db = FirebaseFirestore.instance;
 
@@ -243,18 +244,6 @@ class _MyHomeState extends State<MyHome> {
     );
   }
 
-  Future<QuerySnapshot>? postDocumentsList;
-  String bookText = '';
-  initSearchingPost(String textEntered) {
-    postDocumentsList = FirebaseFirestore.instance
-        .collection("books")
-        .where("name", isGreaterThanOrEqualTo: textEntered)
-        .get();
-    setState(() {
-      postDocumentsList;
-    });
-  }
-
   @override
   Widget build(BuildContext context) => Scaffold(
         extendBodyBehindAppBar: true,
@@ -318,15 +307,27 @@ class _MyHomeState extends State<MyHome> {
               Container(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
-                  onChanged: (textEntered) {
-                    setState(() {
-                      bookText = textEntered;
-                    });
-                    initSearchingPost(textEntered);
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MySearchBar(),
+                      ),
+                    );
                   },
                   decoration: InputDecoration(
                     hintText: 'Etsi...',
-                    prefixIcon: Icon(Icons.search),
+                    prefixIcon: IconButton(
+                      icon: Icon(Icons.search),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MySearchBar(),
+                          ),
+                        );
+                      },
+                    ),
                     border: OutlineInputBorder(
                       borderSide: BorderSide(
                         color: Colors.grey,
