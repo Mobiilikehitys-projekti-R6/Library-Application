@@ -256,7 +256,6 @@ class _MyHomeState extends State<MyHome> {
         setState(() {
           bookListnew = data;
         });
-        print(data);
       },
       onError: (e) => print("Error completing: $e"),
     );
