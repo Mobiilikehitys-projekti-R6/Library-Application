@@ -21,7 +21,7 @@ class _MyProfileState extends State<MyProfile> {
 
     FirebaseFirestore.instance
         .collection('users')
-        .doc(user!.uid)
+        .doc(user?.uid)
         .get()
         .then((doc) {
       if (doc.exists) {
