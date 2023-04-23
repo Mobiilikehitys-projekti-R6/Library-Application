@@ -7,7 +7,7 @@ import '../main.dart';
 import 'package:library_app/pages/reset.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  LoginPage({Key? key}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
       } else {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (BuildContext context) => const VerifyEmailPage(),
+            builder: (BuildContext context) => VerifyEmailPage(),
           ),
         );
       }
@@ -98,10 +98,10 @@ class _LoginPageState extends State<LoginPage> {
       body: SafeArea(
         child: Center(
             child: Column(children: [
-          const SizedBox(height: 50),
+          SizedBox(height: 50),
 
           // Hello!
-          const Text(
+          Text(
             'Kirjaudu sisään',
             style: TextStyle(
               fontWeight: FontWeight.bold,
@@ -109,11 +109,11 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
 
-          const SizedBox(height: 70),
+          SizedBox(height: 70),
 
           // email textfield
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+            padding: EdgeInsets.symmetric(horizontal: 25.0),
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.grey[200],
@@ -133,11 +133,11 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
 
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
 
           // password textfield
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+            padding: EdgeInsets.symmetric(horizontal: 25.0),
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.grey[200],
@@ -158,13 +158,13 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
 
-          const SizedBox(height: 25),
+          SizedBox(height: 25),
 
           // Eikö sinulla ole tiliä? Luo tili painamalla tästä! -teksti nappi.
           TextButton(
             style: TextButton.styleFrom(
               foregroundColor: Colors.grey,
-              textStyle: const TextStyle(
+              textStyle: TextStyle(
                 fontWeight: FontWeight.normal,
                 fontSize: 14,
               ),
@@ -173,12 +173,12 @@ class _LoginPageState extends State<LoginPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const RegisterPage(),
+                  builder: (context) => RegisterPage(),
                 ),
               );
             },
             child: Column(
-              children: const [
+              children: [
                 Text(
                   'Eikö sinulla ole tiliä?',
                   style: TextStyle(
@@ -197,7 +197,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
 
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
 
           ElevatedButton(
             onPressed: _isLoading ? null : _signInWithEmailAndPassword,

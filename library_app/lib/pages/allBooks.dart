@@ -7,7 +7,7 @@ import 'package:library_app/searchBar.dart';
 FirebaseFirestore db = FirebaseFirestore.instance;
 
 class AllBooksPage extends StatefulWidget {
-  const AllBooksPage({Key? key}) : super(key: key);
+  AllBooksPage({Key? key}) : super(key: key);
 
   @override
   _AllBooksPageState createState() => _AllBooksPageState();
@@ -267,7 +267,7 @@ class _AllBooksPageState extends State<AllBooksPage> {
         appBar: AppBar(
           backgroundColor: Color.fromARGB(68, 255, 255, 255),
           elevation: 0,
-          title: const Text(
+          title: Text(
             'Aloitussivu',
             style: TextStyle(
               color: Colors.black,
@@ -318,7 +318,7 @@ class _AllBooksPageState extends State<AllBooksPage> {
           child: Column(
             children: [
               Container(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(8.0),
                 child: TextField(
                   onTap: () {
                     Navigator.push(

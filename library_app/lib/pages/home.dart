@@ -8,7 +8,7 @@ import 'package:library_app/searchBar.dart';
 FirebaseFirestore db = FirebaseFirestore.instance;
 
 class MyHome extends StatefulWidget {
-  const MyHome({Key? key}) : super(key: key);
+  MyHome({Key? key}) : super(key: key);
 
   @override
   _MyHomeState createState() => _MyHomeState();
@@ -269,7 +269,7 @@ class _MyHomeState extends State<MyHome> {
           automaticallyImplyLeading: false,
           backgroundColor: Color.fromARGB(68, 255, 255, 255),
           elevation: 0,
-          title: const Text(
+          title: Text(
             'Aloitussivu',
             style: TextStyle(
               color: Colors.black,
@@ -323,7 +323,7 @@ class _MyHomeState extends State<MyHome> {
                 height: 100,
               ),
               Container(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(8.0),
                 child: TextField(
                   onTap: () {
                     Navigator.push(

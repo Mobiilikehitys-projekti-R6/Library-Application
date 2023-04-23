@@ -7,7 +7,7 @@ import 'package:library_app/main.dart';
 import 'package:library_app/pages/login_page.dart';
 
 class VerifyEmailPage extends StatefulWidget {
-  const VerifyEmailPage({super.key});
+  VerifyEmailPage({super.key});
 
   @override
   State<VerifyEmailPage> createState() => _VerifyEmailPageState();
@@ -71,39 +71,39 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
   @override
   Widget build(BuildContext context) => isEmailVerified
-      ? const MyStatefulWidget()
+      ? MyStatefulWidget()
       : Scaffold(
           appBar: AppBar(
-            title: const Text('Verify email'),
+            title: Text('Verify email'),
           ),
           body: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
+                Text(
                   'Vahvistuslinkki on lähetetty sähköpostiin.',
                   style: TextStyle(fontSize: 20),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: 24),
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(50),
+                    minimumSize: Size.fromHeight(50),
                   ),
-                  icon: const Icon(Icons.email, size: 32),
-                  label: const Text(
+                  icon:  Icon(Icons.email, size: 32),
+                  label: Text(
                     'Lähetä linkki uudelleen',
                     style: TextStyle(fontSize: 24),
                   ),
                   onPressed: canResendEmail ? sendVerificationEmail : null,
                 ),
-                const SizedBox(height: 8),
+                 SizedBox(height: 8),
                 TextButton(
                   style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(50),
+                    minimumSize:  Size.fromHeight(50),
                   ),
-                  child: const Text(
+                  child:  Text(
                     'Cancel',
                     style: TextStyle(fontSize: 24),
                   ),
@@ -112,7 +112,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const LoginPage()),
+                          builder: (context) =>LoginPage()),
                     );
                   },
                 ),

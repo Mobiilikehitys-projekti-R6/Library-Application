@@ -17,10 +17,10 @@ class _ResetScreenState extends State<ResetScreen> {
       body: SafeArea(
         child: Center(
             child: Column(children: [
-          const SizedBox(height: 50),
+          SizedBox(height: 50),
 
           // Hello!
-          const Text(
+           Text(
             'Nollaa salasana',
             style: TextStyle(
               fontWeight: FontWeight.bold,
@@ -28,11 +28,11 @@ class _ResetScreenState extends State<ResetScreen> {
             ),
           ),
 
-          const SizedBox(height: 70),
+          SizedBox(height: 70),
 
           // email textfield
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+            padding: EdgeInsets.symmetric(horizontal: 25.0),
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.grey[200],
@@ -54,7 +54,7 @@ class _ResetScreenState extends State<ResetScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 25),
+          SizedBox(height: 25),
           ElevatedButton(
             child: Text(
               'Lähetä pyyntö',

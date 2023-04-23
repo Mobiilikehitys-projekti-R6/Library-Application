@@ -5,7 +5,7 @@ import 'package:library_app/pages/login_page.dart';
 import 'package:library_app/pages/verify_email_page.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({Key? key}) : super(key: key);
+  RegisterPage({Key? key}) : super(key: key);
 
   @override
   State<RegisterPage> createState() => RegisterPageState();
@@ -45,14 +45,14 @@ class RegisterPageState extends State<RegisterPage> {
         child: Center(
           child: Column(
             children: [
-              const SizedBox(height: 50),
+              SizedBox(height: 50),
               // Hello!
-              const Text('Luo Tili',
+              Text('Luo Tili',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24)),
-              const SizedBox(height: 70),
+              SizedBox(height: 70),
               // email textfield
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                padding: EdgeInsets.symmetric(horizontal: 25.0),
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.grey[200],
@@ -60,10 +60,10 @@ class RegisterPageState extends State<RegisterPage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
+                    padding: EdgeInsets.only(left: 15.0),
                     child: TextField(
                       controller: _emailController,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Sähköposti',
                       ),
@@ -71,10 +71,10 @@ class RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               // password textfield
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                padding: EdgeInsets.symmetric(horizontal: 25.0),
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.grey[200],
@@ -82,11 +82,11 @@ class RegisterPageState extends State<RegisterPage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
+                    padding:  EdgeInsets.only(left: 15.0),
                     child: TextField(
                       controller: _passwordController,
                       obscureText: true,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Salasana',
                       ),
@@ -94,10 +94,10 @@ class RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               // confirm password textfield
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                padding: EdgeInsets.symmetric(horizontal: 25.0),
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.grey[200],
@@ -105,11 +105,11 @@ class RegisterPageState extends State<RegisterPage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
+                    padding: EdgeInsets.only(left: 15.0),
                     child: TextField(
                       controller: _confirmPasswordController,
                       obscureText: true,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Vahvista salasana',
                       ),
@@ -117,19 +117,19 @@ class RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
 
               TextButton(
                 style: TextButton.styleFrom(
                   foregroundColor: Colors.grey,
-                  textStyle: const TextStyle(
+                  textStyle: TextStyle(
                       fontWeight: FontWeight.normal, fontSize: 14),
                 ),
                 onPressed: () {
                   Navigator.pop(context);
                 },
                 child: Column(
-                  children: const [
+                  children: [
                     Text(
                       'Joko sinulla on sellainen?',
                       style: TextStyle(
@@ -144,7 +144,7 @@ class RegisterPageState extends State<RegisterPage> {
                   ],
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               // register button
               ElevatedButton(
                 onPressed: () async {
@@ -153,7 +153,7 @@ class RegisterPageState extends State<RegisterPage> {
                   final String confirmPassword = _confirmPasswordController.text.trim();
                   if (password != confirmPassword) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
+                      SnackBar(
                         content: Text('Salasanat eivät täsmää'),
                       ),
                     );
@@ -168,37 +168,37 @@ class RegisterPageState extends State<RegisterPage> {
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
                         builder: (BuildContext context) =>
-                            const VerifyEmailPage(),
+                            VerifyEmailPage(),
                       ),
                     );
                   } on FirebaseAuthException catch (e) {
                     if (e.code == 'weak-password') {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
+                        SnackBar(
                           content: Text('Salasana on liian heikko'),
                         ),
                       );
                     } else if (e.code == 'email-already-in-use') {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
+                        SnackBar(
                           content: Text('Sähköposti on jo käytössä'),
                         ),
                       );
                     }
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
+                      SnackBar(
                         content: Text('Tapahtui virhe. Yritä uudelleen.'),
                       ),
                     );
                   }
                   await addUserDetails(email);
                 },
-                child: const Text('Luo Tili'),
+                child: Text('Luo Tili'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFF25BE70),
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 14),
+                       EdgeInsets.symmetric(horizontal: 15, vertical: 14),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),

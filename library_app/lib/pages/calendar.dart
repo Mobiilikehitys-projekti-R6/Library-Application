@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 class Event {
   final String bookTitle;
 
-  const Event(this.bookTitle);
+  Event(this.bookTitle);
 }
 
 FirebaseFirestore db = FirebaseFirestore.instance;
@@ -59,7 +59,7 @@ class _MyCalendarState extends State<MyCalendar> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(68, 255, 255, 255),
         elevation: 0,
-        title: const Text(
+        title: Text(
           'Kalenteri',
           style: TextStyle(
             color: Colors.black,
@@ -90,7 +90,7 @@ class _MyCalendarState extends State<MyCalendar> {
                 return Container(
                   width: 4,
                   height: 4,
-                  margin: const EdgeInsets.symmetric(vertical: 2),
+                  margin: EdgeInsets.symmetric(vertical: 2),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: color,
@@ -127,7 +127,7 @@ class _MyCalendarState extends State<MyCalendar> {
             },
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(8.0),
             child: Text(
               "Upcoming Events",
               style: TextStyle(
@@ -147,7 +147,7 @@ class _MyCalendarState extends State<MyCalendar> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(
+                      padding: EdgeInsets.symmetric(
                         horizontal: 16,
                         vertical: 8,
                       ),
@@ -161,7 +161,7 @@ class _MyCalendarState extends State<MyCalendar> {
                     ),
                     for (final event in events)
                       Padding(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 16,
                           vertical: 4,
                         ),

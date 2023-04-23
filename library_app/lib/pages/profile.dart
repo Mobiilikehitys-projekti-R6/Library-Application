@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class MyProfile extends StatefulWidget {
-  const MyProfile({Key? key}) : super(key: key);
+ MyProfile({Key? key}) : super(key: key);
 
   @override
   State<MyProfile> createState() => _MyProfileState();
@@ -50,7 +50,7 @@ class _MyProfileState extends State<MyProfile> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xFF25BE70),
+        backgroundColor: Color(0xFF25BE70),
         elevation: 0,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -65,9 +65,9 @@ class _MyProfileState extends State<MyProfile> {
                   ),
                 );
               },
-              icon: const Icon(Icons.settings),
+              icon: Icon(Icons.settings),
             ),
-            const Text(
+            Text(
               'Käyttäjätiedot',
               style: TextStyle(
                 color: Colors.white,
@@ -80,10 +80,10 @@ class _MyProfileState extends State<MyProfile> {
                 FirebaseAuth.instance.signOut();
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                  MaterialPageRoute(builder: (context) => LoginPage()),
                 );
               },
-              icon: const Icon(Icons.logout),
+              icon: Icon(Icons.logout),
             ),
           ],
         ),
@@ -93,26 +93,26 @@ class _MyProfileState extends State<MyProfile> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
             Text(
               "Terve, $_name",
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
             Text(
               "Sähköposti: $_email",
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
             Text(
               "Osoite: $_info",
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
               ),

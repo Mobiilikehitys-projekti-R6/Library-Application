@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class ProfileSettings extends StatefulWidget {
   final Function updateProfile;
 
-  const ProfileSettings({Key? key, required this.updateProfile})
+  ProfileSettings({Key? key, required this.updateProfile})
       : super(key: key);
 
   @override
@@ -69,9 +69,9 @@ class ProfileSettingsState extends State<ProfileSettings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF25BE70),
+        backgroundColor: Color(0xFF25BE70),
         elevation: 0,
-        title: const Text(
+        title: Text(
           'Asetukset',
           style: TextStyle(
             color: Colors.white,
@@ -84,13 +84,13 @@ class ProfileSettingsState extends State<ProfileSettings> {
       body: Form(
         key: _formKey,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(16.0),
           child: Column(
             children: [
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               TextFormField(
                 controller: _nameController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Käyttäjänimi',
                 ),
                 validator: (value) {
@@ -100,10 +100,10 @@ class ProfileSettingsState extends State<ProfileSettings> {
                   return null;
                 },
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               TextFormField(
                 controller: _infoController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Osoite',
                 ),
                 validator: (value) {
@@ -113,17 +113,17 @@ class ProfileSettingsState extends State<ProfileSettings> {
                   return null;
                 },
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               Container(
                 decoration: BoxDecoration(
-                  color: const Color(0xFF25BE70),
+                  color: Color(0xFF25BE70),
                   border: Border.all(color: Colors.white),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: TextButton(
                   style: TextButton.styleFrom(
                     foregroundColor: Colors.grey,
-                    textStyle: const TextStyle(
+                    textStyle: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
                     ),
@@ -142,7 +142,7 @@ class ProfileSettingsState extends State<ProfileSettings> {
                       }
                     }
                   },
-                  child: const Text(
+                  child: Text(
                     'Tallenna',
                     style: TextStyle(color: Colors.white),
                   ),

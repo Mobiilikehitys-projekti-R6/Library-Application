@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 FirebaseFirestore db = FirebaseFirestore.instance;
 
 class MyBooks extends StatefulWidget {
-  const MyBooks({Key? key}) : super(key: key);
+  MyBooks({Key? key}) : super(key: key);
 
   @override
   _MyBooksState createState() => _MyBooksState();
@@ -168,7 +168,7 @@ class _MyBooksState extends State<MyBooks> {
         automaticallyImplyLeading: false,
         backgroundColor: Color.fromARGB(68, 255, 255, 255),
         elevation: 0,
-        title: const Text(
+        title: Text(
           'Sinun Lainat',
           style: TextStyle(
             color: Colors.black,
@@ -183,8 +183,7 @@ class _MyBooksState extends State<MyBooks> {
           SizedBox(
             height: 100,
           ),
-          SizedBox(
-            height: 180,
+          Expanded(
             child: GridView.count(
               padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5),
               scrollDirection: Axis.vertical,
