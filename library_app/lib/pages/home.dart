@@ -15,6 +15,7 @@ class MyHome extends StatefulWidget {
 
 class _MyHomeState extends State<MyHome> {
   List<Map<String, dynamic>> bookList = [];
+  List<Map<String, dynamic>> bookListnew = [];
 
   void _showBookDialog(BuildContext context, dynamic bookData) {
     DateTime loanDate = DateTime.now();
@@ -226,6 +227,7 @@ class _MyHomeState extends State<MyHome> {
   void initState() {
     super.initState();
     getData();
+    getNew();
   }
 
   void getData() {
@@ -239,6 +241,22 @@ class _MyHomeState extends State<MyHome> {
         setState(() {
           bookList = data;
         });
+      },
+      onError: (e) => print("Error completing: $e"),
+    );
+  }
+
+  void getNew() {
+    db.collection("books").orderBy("timestamp", descending: true).get().then(
+      (querySnapshot) {
+        List<Map<String, dynamic>> data = [];
+        for (var docSnapshot in querySnapshot.docs) {
+          data.add(docSnapshot.data());
+        }
+        setState(() {
+          bookListnew = data;
+        });
+        print(data);
       },
       onError: (e) => print("Error completing: $e"),
     );
@@ -344,7 +362,7 @@ class _MyHomeState extends State<MyHome> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Uutuudet',
+                        'Valikoimamme',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
@@ -364,7 +382,7 @@ class _MyHomeState extends State<MyHome> {
                   shrinkWrap: true,
                   childAspectRatio: (150 / 150),
                   children: [
-                    for (var bookData in bookList)
+                    for (var bookData in bookList.take(10))
                       GestureDetector(
                         onTap: () {
                           _showBookDialog(context, bookData);
@@ -414,7 +432,7 @@ class _MyHomeState extends State<MyHome> {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          'Näitä luetaan juuri nyt',
+                          'Uutuudet',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
@@ -427,28 +445,50 @@ class _MyHomeState extends State<MyHome> {
                       height: 180,
                       child: GridView.count(
                         padding:
-                            EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                            EdgeInsets.symmetric(vertical: 0, horizontal: 5),
                         scrollDirection: Axis.horizontal,
                         crossAxisCount: 1,
                         shrinkWrap: true,
-                        childAspectRatio: (150 / 195),
+                        childAspectRatio: (150 / 150),
                         children: [
-                          for (int i = 0; i < 5; i++)
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 10),
-                              margin: EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 13),
-                              decoration: BoxDecoration(
+                          for (var bookData in bookListnew.take(10))
+                            GestureDetector(
+                              onTap: () {
+                                _showBookDialog(context, bookData);
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 10),
+                                margin: EdgeInsets.symmetric(
+                                    vertical: 8, horizontal: 13),
+                                decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
-                                  color: Color(0xFF212325),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.4),
-                                      spreadRadius: 1,
-                                      blurRadius: 8,
-                                    )
-                                  ]),
+                                  color: Colors.white,
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      child: bookData["image_url"] != null
+                                          ? Image.network(
+                                              bookData["image_url"],
+                                              fit: BoxFit.cover,
+                                            )
+                                          : Placeholder(),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      bookData["name"] ?? "",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Color(0xFF212325),
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                         ],
                       ),
