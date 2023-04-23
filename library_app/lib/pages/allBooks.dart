@@ -2,19 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:library_app/pages/addBooks.dart';
-import 'package:library_app/pages/allBooks.dart';
 import 'package:library_app/searchBar.dart';
 
 FirebaseFirestore db = FirebaseFirestore.instance;
 
-class MyHome extends StatefulWidget {
-  const MyHome({Key? key}) : super(key: key);
+class AllBooksPage extends StatefulWidget {
+  const AllBooksPage({Key? key}) : super(key: key);
 
   @override
-  _MyHomeState createState() => _MyHomeState();
+  _AllBooksPageState createState() => _AllBooksPageState();
 }
 
-class _MyHomeState extends State<MyHome> {
+class _AllBooksPageState extends State<AllBooksPage> {
   List<Map<String, dynamic>> bookList = [];
   List<Map<String, dynamic>> bookListnew = [];
 
@@ -355,28 +354,30 @@ class _MyHomeState extends State<MyHome> {
                   ),
                 ),
               ),
-              ListTile(
-                title: Text(
-                  'Valikoimamme',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 25,
+              Container(
+                padding: EdgeInsets.only(top: 16),
+                child: Column(children: [
+                  Container(
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Valikoimamme',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 25,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-                trailing: Icon(Icons.arrow_forward),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AllBooksPage()),
-                  );
-                },
+                ]),
               ),
               SizedBox(
-                height: 180,
+                height: 550,
                 child: GridView.count(
                   padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-                  scrollDirection: Axis.horizontal,
-                  crossAxisCount: 1,
+                  scrollDirection: Axis.vertical,
+                  crossAxisCount: 2,
                   shrinkWrap: true,
                   childAspectRatio: (150 / 150),
                   children: [
@@ -419,74 +420,6 @@ class _MyHomeState extends State<MyHome> {
                           ),
                         ),
                       ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(top: 16),
-                child: Column(
-                  children: [
-                    ListTile(
-                      title: Text(
-                        'Uutuudet',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 25,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 180,
-                      child: GridView.count(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-                        scrollDirection: Axis.horizontal,
-                        crossAxisCount: 1,
-                        shrinkWrap: true,
-                        childAspectRatio: (150 / 150),
-                        children: [
-                          for (var bookData in bookListnew.take(10))
-                            GestureDetector(
-                              onTap: () {
-                                _showBookDialog(context, bookData);
-                              },
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 5, horizontal: 10),
-                                margin: EdgeInsets.symmetric(
-                                    vertical: 8, horizontal: 13),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: Colors.white,
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Expanded(
-                                      child: bookData["image_url"] != null
-                                          ? Image.network(
-                                              bookData["image_url"],
-                                              fit: BoxFit.cover,
-                                            )
-                                          : Placeholder(),
-                                    ),
-                                    SizedBox(height: 10),
-                                    Text(
-                                      bookData["name"] ?? "",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Color(0xFF212325),
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 15,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
                   ],
                 ),
               ),
