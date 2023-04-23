@@ -357,20 +357,19 @@ class _AllBooksPageState extends State<AllBooksPage> {
               Container(
                 padding: EdgeInsets.only(top: 16),
                 child: Column(children: [
-                  Container(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
+                    ListTile(
+                      title: Text(
                         'Valikoimamme',
-                        textAlign: TextAlign.center,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 25,
                         ),
                       ),
                     ),
-                  ),
                 ]),
+              ),
+              SizedBox(
+                height: 15,
               ),
               SizedBox(
                 height: 550,
