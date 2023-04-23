@@ -376,7 +376,7 @@ class _AllBooksPageState extends State<AllBooksPage> {
                   shrinkWrap: true,
                   childAspectRatio: (150 / 150),
                   children: [
-                    for (var bookData in bookList.take(10))
+                    for (var bookData in bookList)
                       GestureDetector(
                         onTap: () {
                           _showBookDialog(context, bookData);
